@@ -17,7 +17,7 @@ const Header = () => {
 
   return (
     <Box py="4" bgColor={bgColor} boxShadow={boxShadow}>
-      <Container maxW="4xl">
+      <Container maxW="6xl">
         <Flex justify="space-between">
           <HStack align="center">
             <Box w="16">
