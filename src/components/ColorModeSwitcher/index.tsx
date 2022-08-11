@@ -11,17 +11,20 @@ type ColorModeSwitcherProps = Omit<IconButtonProps, 'aria-label'>;
 const ColorModeSwitcher = (props: ColorModeSwitcherProps) => {
   const { toggleColorMode } = useColorMode();
   const text = useColorModeValue(`dark`, `light`);
-  const color = useColorModeValue(`gunmetal`, `mintCream`);
-  const colorScheme = useColorModeValue(`gunmetal`, `mintCream`);
+  const variant = useColorModeValue(`outline`, `solid`);
+  const color = useColorModeValue(`mediumTurquoise`, `gunmetal`);
+  const colorScheme = useColorModeValue(``, `cyan`);
+  const bgColor = useColorModeValue(``, `mediumTurquoise`);
   const SwitchIcon = useColorModeValue(FiMoon, FiSun);
 
   return (
     <IconButton
       size="md"
       fontSize="lg"
-      variant="outline"
+      variant={variant}
       color={color}
       colorScheme={colorScheme}
+      bgColor={bgColor}
       marginLeft="2"
       onClick={toggleColorMode}
       icon={<SwitchIcon />}

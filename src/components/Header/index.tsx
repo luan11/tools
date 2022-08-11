@@ -7,12 +7,12 @@ import {
   Heading,
 } from '@chakra-ui/react';
 
-import { ReactComponent as LuancodeIcon } from '../../images/luancode-icon.svg';
-import ColorModeSwitcher from '../ColorModeSwitcher';
+import { ReactComponent as LuancodeIcon } from './../../images/luancode-icon.svg';
+import ColorModeSwitcher from './../ColorModeSwitcher';
 
 const Header = () => {
-  const bgColor = useColorModeValue(`gray.50`, `gray.700`);
-  const boxShadow = useColorModeValue(`none`, `md`);
+  const bgColor = useColorModeValue(``, `gray.700`);
+  const boxShadow = useColorModeValue(`lg`, `md`);
   const headingColor = useColorModeValue(`gunmetal`, `mintCream`);
 
   return (
@@ -23,7 +23,7 @@ const Header = () => {
             <Box w="16">
               <LuancodeIcon />
             </Box>
-            <Heading as="h1" size="md" color={headingColor}>
+            <Heading as="h1" size="sm" color={headingColor}>
               tools
             </Heading>
           </HStack>
