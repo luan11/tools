@@ -96,12 +96,10 @@ const ToolsList = () => {
       }
     };
 
-    fetchRepos();
-
-    return () => {
-      setTools([]);
-    };
-  }, [toast]);
+    if (!tools.length) {
+      fetchRepos();
+    }
+  }, [toast, tools]);
 
   console.log(tools);
 
@@ -122,7 +120,14 @@ const ToolsList = () => {
         ) : (
           <>
             {tools.length > 0 && (
-              <Grid templateColumns="repeat(3, 1fr)" gap="4">
+              <Grid
+                templateColumns={{
+                  sm: `1fr`,
+                  md: `repeat(2, 1fr)`,
+                  lg: `repeat(3, 1fr)`,
+                }}
+                gap="4"
+              >
                 {tools.map((props) => (
                   <GridItem key={props.title}>
                     <ToolListItem {...props} />
