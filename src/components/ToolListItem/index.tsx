@@ -1,5 +1,6 @@
 import {
   useColorModeValue,
+  Flex,
   Box,
   HStack,
   Heading,
@@ -31,16 +32,20 @@ const ToolListItem = ({
   subtitle,
   title,
 }: ToolListItemProps) => {
-  const githubButtonColorScheme = useColorModeValue(`blackAlpha`, `gray`);
+  const containerBoxShadow = useColorModeValue(`lg`, `md`);
+  const containerBgColor = useColorModeValue(``, `gray.700`);
+  const githubButtonBgColor = useColorModeValue(`gray.600`, `gunmetal`);
 
   return (
-    <Box
-      border="1px"
+    <Flex
       borderRadius="lg"
-      borderColor="gray.500"
       overflow="hidden"
-      py="2"
-      px="4"
+      py="4"
+      px="8"
+      boxShadow={containerBoxShadow}
+      bgColor={containerBgColor}
+      direction="column"
+      h="full"
     >
       <HStack>
         <Heading as="h2" size="sm">
@@ -57,8 +62,10 @@ const ToolListItem = ({
         </Box>
         <Text fontSize="xs">{starsCount}</Text>
       </HStack>
-      <Text fontSize="sm">{description}</Text>
-      <Divider my="2" />
+      <Text fontSize="sm" pb={2}>
+        {description}
+      </Text>
+      <Divider mt="auto" mb={2} />
       <HStack>
         {livePreviewUrl && (
           <Link href={livePreviewUrl} isExternal>
@@ -75,13 +82,17 @@ const ToolListItem = ({
           <IconButton
             aria-label="Go to repository"
             as="span"
-            colorScheme={githubButtonColorScheme}
+            color="white"
+            bgColor={githubButtonBgColor}
             icon={<FiGithub />}
             size="sm"
+            _hover={{
+              bgColor: `gray.800`,
+            }}
           />
         </Link>
       </HStack>
-    </Box>
+    </Flex>
   );
 };
 

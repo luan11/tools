@@ -104,9 +104,9 @@ const ToolsList = () => {
   console.log(tools);
 
   return (
-    <Box py="4">
+    <Box py="8">
       <Container maxW="6xl">
-        <Divider mb="4" />
+        <Divider mb="8" />
 
         {isLoading ? (
           <Box
