@@ -9,9 +9,11 @@ import {
   Text,
   useToast,
 } from '@chakra-ui/react';
+import { useDispatch } from 'react-redux';
 
 import useRepos from './../../hooks/useRepos';
 import ToolListItem from './../ToolListItem';
+import { fetchRepositories } from './../../features/ToolsList/toolsListSlice';
 
 const ToolsList = () => {
   const { isLoading, errorMessage, data } = useRepos({
@@ -21,6 +23,8 @@ const ToolsList = () => {
     },
   });
   const toast = useToast();
+
+  const dispatch = useDispatch<any>();
 
   useEffect(() => {
     if (errorMessage) {
@@ -34,6 +38,10 @@ const ToolsList = () => {
       });
     }
   }, [errorMessage, toast]);
+
+  useEffect(() => {
+    dispatch(fetchRepositories());
+  }, [dispatch]);
 
   return (
     <Box py="8">
