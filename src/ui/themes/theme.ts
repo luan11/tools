@@ -1,6 +1,9 @@
 import { extendTheme } from '@chakra-ui/react';
 
-const initialColorMode = `dark`;
+const config = {
+  useSystemColorMode: false,
+  initialColorMode: `dark`,
+};
 
 const colors = {
   gunmetal: `#292F36`,
@@ -15,6 +18,10 @@ const fonts = {
   body: `'Comfortaa', cursive`,
 };
 
-const theme = extendTheme({ initialColorMode, colors, fonts });
+const theme = extendTheme({
+  config,
+  colors,
+  fonts,
+});
 
 export default theme;
