@@ -1,7 +1,7 @@
 import { Box } from '@chakra-ui/react';
 
 import Header from './../../components/Header';
-import ToolsList from './../../components/ToolsList';
+import ToolsList from './../../features/ToolsList';
 
 const Home = () => (
   <Box>

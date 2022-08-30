@@ -9,22 +9,13 @@ import {
   Text,
   useToast,
 } from '@chakra-ui/react';
-import { useDispatch } from 'react-redux';
 
-import useRepos from './../../hooks/useRepos';
-import ToolListItem from './../ToolListItem';
-import { fetchRepositories } from './../../features/ToolsList/toolsListSlice';
+import useRepositories from './../../hooks/useRepositories';
+import ToolListItem from './../../components/ToolListItem';
 
 const ToolsList = () => {
-  const { isLoading, errorMessage, data } = useRepos({
-    params: {
-      sort: `created`,
-      visibility: `public`,
-    },
-  });
+  const { isLoading, errorMessage, data } = useRepositories();
   const toast = useToast();
-
-  const dispatch = useDispatch<any>();
 
   useEffect(() => {
     if (errorMessage) {
@@ -38,10 +29,6 @@ const ToolsList = () => {
       });
     }
   }, [errorMessage, toast]);
-
-  useEffect(() => {
-    dispatch(fetchRepositories());
-  }, [dispatch]);
 
   return (
     <Box py="8">

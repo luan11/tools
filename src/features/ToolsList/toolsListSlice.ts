@@ -23,11 +23,12 @@ type RepositoryProps = Pick<ToolProps, `description` | `language`> & {
   topics: string[];
 };
 
-type ToolsProps = {
+export type ToolsProps = {
   all: ToolProps[];
   filtered: ToolProps[];
   isLoading: boolean;
   errorMessage: string | undefined;
+  revalidateIn: string | undefined;
 };
 
 export const fetchRepositories = createAsyncThunk(`tools/fetch`, async () => {
@@ -46,6 +47,7 @@ const initialState: ToolsProps = {
   filtered: [],
   isLoading: false,
   errorMessage: undefined,
+  revalidateIn: undefined,
 };
 
 const tools = createSlice({
@@ -81,9 +83,16 @@ const tools = createSlice({
           );
 
         state.all = parsedPayload;
+        state.isLoading = false;
+
+        const now = new Date();
+        now.setDate(now.getDate() + 7);
+
+        state.revalidateIn = now.toUTCString();
       })
-      .addCase(fetchRepositories.rejected, (state, { payload }) => {
-        console.log(payload);
+      .addCase(fetchRepositories.rejected, (state) => {
+        state.errorMessage = `An error occurred while fetching tools`;
+        state.isLoading = false;
       });
   },
 });
