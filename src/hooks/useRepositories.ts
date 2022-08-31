@@ -8,10 +8,8 @@ import {
 } from './../features/ToolsList/toolsListSlice';
 
 const useRepositories = () => {
-  const { all, errorMessage, isLoading, revalidateIn } = useSelector<
-    RootState,
-    ToolsProps
-  >(({ tools }) => tools);
+  const { searchParam, all, filtered, errorMessage, isLoading, revalidateIn } =
+    useSelector<RootState, ToolsProps>(({ tools }) => tools);
   const dispatch = useDispatch<AppDispatch>();
 
   const [refetchController, setRefetchController] = useState(0);
@@ -27,7 +25,12 @@ const useRepositories = () => {
     }
   }, [revalidate, refetchController, dispatch]);
 
-  return { data: all, errorMessage, isLoading, refetch };
+  return {
+    data: searchParam ? filtered : all,
+    errorMessage,
+    isLoading,
+    refetch,
+  };
 };
 
 export default useRepositories;

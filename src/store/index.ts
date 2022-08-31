@@ -20,13 +20,16 @@ const reducers = combineReducers({
   tools: toolsReducer,
 });
 
-const onlyToolsFilter = createFilter(`tools`, [`all`, `revalidateIn`]);
+const importantToolsPropertiesFilter = createFilter(`tools`, [
+  `all`,
+  `revalidateIn`,
+]);
 
 const persistConfig = {
   key: STORAGE_KEY,
   storage,
   whitelist: [`tools`],
-  transforms: [onlyToolsFilter],
+  transforms: [importantToolsPropertiesFilter],
 };
 
 const persistedReducer = persistReducer(persistConfig, reducers);

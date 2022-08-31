@@ -1,6 +1,7 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import api from './../../services/api';
+import escapeRegExp from './../../utils/escapeRegExp';
 
 const ALLOWED_TOPIC = `luancode-tools`;
 
@@ -27,33 +28,46 @@ export type ToolsProps = {
   all: ToolProps[];
   filtered: ToolProps[];
   isLoading: boolean;
-  errorMessage: string | undefined;
-  revalidateIn: string | undefined;
+  errorMessage?: string;
+  revalidateIn?: string;
+  searchParam?: string;
 };
 
-export const fetchRepositories = createAsyncThunk(`tools/fetch`, async () => {
-  const { data } = await api.get<RepositoryProps[]>(`/users/luan11/repos`, {
-    params: {
-      sort: `created`,
-      visibility: `public`,
-    },
-  });
+export const fetchRepositories = createAsyncThunk(
+  `tools/fetchRepositories`,
+  async () => {
+    const { data } = await api.get<RepositoryProps[]>(`/users/luan11/repos`, {
+      params: {
+        sort: `created`,
+        visibility: `public`,
+      },
+    });
 
-  return data;
-});
+    return data;
+  }
+);
 
 const initialState: ToolsProps = {
   all: [],
   filtered: [],
   isLoading: false,
-  errorMessage: undefined,
-  revalidateIn: undefined,
 };
 
 const tools = createSlice({
   name: `tools`,
   initialState,
-  reducers: {},
+  reducers: {
+    search: (state, { payload }: PayloadAction<string>) => {
+      state.searchParam = payload;
+
+      const searchParamRegExp = new RegExp(escapeRegExp(payload));
+
+      state.filtered = state.all.filter(
+        ({ title, subtitle }) =>
+          searchParamRegExp.test(title) || searchParamRegExp.test(subtitle)
+      );
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchRepositories.pending, (state) => {
@@ -96,5 +110,7 @@ const tools = createSlice({
       });
   },
 });
+
+export const { search } = tools.actions;
 
 export default tools.reducer;
