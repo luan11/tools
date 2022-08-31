@@ -1,15 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { RootState, AppDispatch } from './../store';
-import {
-  ToolsProps,
-  fetchRepositories,
-} from './../features/ToolsList/toolsListSlice';
+import { AppDispatch } from './../store';
+import { fetchRepositories } from './../features/ToolsList/toolsListSlice';
+import useSelectTools from './../hooks/useSelectTools';
 
 const useRepositories = () => {
   const { searchParam, all, filtered, errorMessage, isLoading, revalidateIn } =
-    useSelector<RootState, ToolsProps>(({ tools }) => tools);
+    useSelectTools();
   const dispatch = useDispatch<AppDispatch>();
 
   const [refetchController, setRefetchController] = useState(0);

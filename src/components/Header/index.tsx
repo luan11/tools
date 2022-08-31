@@ -29,7 +29,16 @@ const Header = () => {
       left={0}
     >
       <Container maxW="6xl">
-        <Flex justify="space-between">
+        <Flex
+          justify={{
+            base: `center`,
+            sm: `space-between`,
+          }}
+          wrap={{
+            base: `wrap`,
+            sm: `nowrap`,
+          }}
+        >
           <VStack>
             <Text size="sm" fontWeight="semibold">
               luancode
@@ -43,7 +52,7 @@ const Header = () => {
               tools
             </Heading>
           </VStack>
-          <HStack>
+          <HStack w={{ base: `full`, sm: `auto` }} mt={{ base: 4, sm: 0 }}>
             <Search />
             <ColorModeSwitcher />
           </HStack>

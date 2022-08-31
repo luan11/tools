@@ -31,7 +31,7 @@ const ToolsList = () => {
   }, [errorMessage, toast]);
 
   return (
-    <Box mt={75} py={8}>
+    <Box mt={{ base: 131, sm: 75 }} py={8}>
       <Container maxW="6xl">
         <Divider mb={8} />
 
