@@ -13,7 +13,7 @@ import ColorModeSwitcher from './../ColorModeSwitcher';
 import Search from './../Search';
 
 const Header = () => {
-  const bgColor = useColorModeValue(``, `gray.700`);
+  const bgColor = useColorModeValue(`white`, `gray.700`);
   const boxShadow = useColorModeValue(`lg`, `md`);
   const headingColor = useColorModeValue(`gunmetal`, `mintCream`);
 
