@@ -60,7 +60,7 @@ const tools = createSlice({
     search: (state, { payload }: PayloadAction<string>) => {
       state.searchParam = payload;
 
-      const searchParamRegExp = new RegExp(escapeRegExp(payload));
+      const searchParamRegExp = new RegExp(escapeRegExp(payload), `i`);
 
       state.filtered = state.all.filter(
         ({ title, subtitle }) =>
