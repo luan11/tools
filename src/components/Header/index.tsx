@@ -7,7 +7,10 @@ import {
   Text,
   Heading,
   HStack,
+  Link,
+  IconButton,
 } from '@chakra-ui/react';
+import { FiGithub } from 'react-icons/fi';
 
 import ColorModeSwitcher from './../ColorModeSwitcher';
 import Search from './../Search';
@@ -16,6 +19,9 @@ const Header = () => {
   const bgColor = useColorModeValue(`white`, `gray.700`);
   const boxShadow = useColorModeValue(`lg`, `md`);
   const headingColor = useColorModeValue(`gunmetal`, `mintCream`);
+  const githubButtonBgColor = useColorModeValue(`gray.600`, `mediumTurquoise`);
+  const githubButtonBgColorHover = useColorModeValue(`gray.800`, `cyan.300`);
+  const githubButtonColor = useColorModeValue(`white`, `gunmetal`);
 
   return (
     <Box
@@ -39,19 +45,35 @@ const Header = () => {
             sm: `nowrap`,
           }}
         >
-          <VStack>
-            <Text size="sm" fontWeight="semibold">
-              luancode
-            </Text>
-            <Heading
-              as="h1"
-              size="sm"
-              color={headingColor}
-              sx={{ mt: `0 !important` }}
-            >
-              tools
-            </Heading>
-          </VStack>
+          <HStack>
+            <Link href="https://github.com/luan11/tools" isExternal>
+              <IconButton
+                aria-label="Go to repository"
+                as="span"
+                color={githubButtonColor}
+                bgColor={githubButtonBgColor}
+                icon={<FiGithub size={18} />}
+                size="md"
+                _hover={{
+                  bgColor: githubButtonBgColorHover,
+                }}
+              />
+            </Link>
+            <VStack>
+              <Text size="sm" fontWeight="semibold">
+                luancode
+              </Text>
+              <Heading
+                as="h1"
+                size="sm"
+                color={headingColor}
+                sx={{ mt: `0 !important` }}
+              >
+                tools
+              </Heading>
+            </VStack>
+          </HStack>
+
           <HStack w={{ base: `full`, sm: `auto` }} mt={{ base: 4, sm: 0 }}>
             <Search />
             <ColorModeSwitcher />
