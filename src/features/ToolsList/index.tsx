@@ -9,6 +9,7 @@ import {
   Text,
   useToast,
 } from '@chakra-ui/react';
+import { useAutoAnimate } from '@formkit/auto-animate/react';
 
 import useRepositories from './../../hooks/useRepositories';
 import ToolListItem from './../../components/ToolListItem';
@@ -16,6 +17,7 @@ import ToolListItem from './../../components/ToolListItem';
 const ToolsList = () => {
   const { isLoading, errorMessage, data } = useRepositories();
   const toast = useToast();
+  const [animationParent] = useAutoAnimate<HTMLDivElement>();
 
   useEffect(() => {
     if (errorMessage) {
@@ -35,7 +37,7 @@ const ToolsList = () => {
       <Container maxW="6xl">
         <Divider mb={8} />
 
-        {isLoading ? (
+        {isLoading && (
           <Box
             minHeight="lg"
             display="flex"
@@ -44,26 +46,28 @@ const ToolsList = () => {
           >
             <Spinner />
           </Box>
-        ) : (
-          <>
-            {data.length > 0 && (
-              <Grid
-                templateColumns={{
-                  sm: `1fr`,
-                  md: `repeat(2, 1fr)`,
-                  lg: `repeat(3, 1fr)`,
-                }}
-                gap="4"
-              >
-                {data.map((props) => (
-                  <GridItem key={props.title}>
-                    <ToolListItem {...props} />
-                  </GridItem>
-                ))}
-              </Grid>
-            )}
-            {!data.length && <Text textAlign="center">No tools found</Text>}
-          </>
+        )}
+
+        {!isLoading && (
+          <Grid
+            ref={animationParent}
+            templateColumns={{
+              sm: `1fr`,
+              md: `repeat(2, 1fr)`,
+              lg: `repeat(3, 1fr)`,
+            }}
+            gap="4"
+          >
+            {data.map((props) => (
+              <GridItem key={props.title}>
+                <ToolListItem {...props} />
+              </GridItem>
+            ))}
+          </Grid>
+        )}
+
+        {!isLoading && !data.length && (
+          <Text textAlign="center">No tools found</Text>
         )}
       </Container>
     </Box>
