@@ -8,9 +8,16 @@ import {
 
 const Footer = () => {
   const bgColor = useColorModeValue(`white`, `gray.700`);
+  const borderColor = useColorModeValue(`gray.50`, `gray.600`);
 
   return (
-    <Box py="4" bgColor={bgColor} w="full">
+    <Box
+      py="4"
+      bgColor={bgColor}
+      w="full"
+      borderTop="4px"
+      borderColor={borderColor}
+    >
       <Container maxW="6xl">
         <Text align="center" fontSize="sm">
           developed by{' '}

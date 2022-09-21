@@ -1,4 +1,4 @@
-import { Box, ChakraProvider } from '@chakra-ui/react';
+import { Flex, ChakraProvider } from '@chakra-ui/react';
 
 import theme from './ui/themes/theme';
 import Header from './components/Header';
@@ -7,10 +7,10 @@ import Home from './pages/Home';
 
 export const App = () => (
   <ChakraProvider theme={theme}>
-    <Box>
+    <Flex minHeight="100vh" direction="column">
       <Header />
       <Home />
       <Footer />
-    </Box>
+    </Flex>
   </ChakraProvider>
 );
