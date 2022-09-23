@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import { AppDispatch } from './../store';
 import { fetchRepositories } from './../features/ToolsList/toolsListSlice';

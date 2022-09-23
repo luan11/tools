@@ -19,9 +19,7 @@ const Header = () => {
   const bgColor = useColorModeValue(`white`, `gray.700`);
   const boxShadow = useColorModeValue(`lg`, `md`);
   const headingColor = useColorModeValue(`gunmetal`, `mintCream`);
-  const githubButtonBgColor = useColorModeValue(`gray.600`, `mediumTurquoise`);
-  const githubButtonBgColorHover = useColorModeValue(`gray.800`, `cyan.300`);
-  const githubButtonColor = useColorModeValue(`white`, `gunmetal`);
+  const githubButtonBgColor = useColorModeValue(`gray.600`, `gunmetal`);
 
   return (
     <Box
@@ -45,38 +43,37 @@ const Header = () => {
             sm: `nowrap`,
           }}
         >
-          <HStack>
+          <VStack>
+            <Text size="sm" fontWeight="semibold">
+              luancode
+            </Text>
+            <Heading
+              as="h1"
+              size="sm"
+              color={headingColor}
+              sx={{ mt: `0 !important` }}
+            >
+              tools
+            </Heading>
+          </VStack>
+
+          <HStack w={{ base: `full`, sm: `auto` }} mt={{ base: 4, sm: 0 }}>
+            <Search />
+
+            <ColorModeSwitcher />
             <Link href="https://github.com/luan11/tools" isExternal>
               <IconButton
                 aria-label="Go to repository"
                 as="span"
-                color={githubButtonColor}
+                color="white"
                 bgColor={githubButtonBgColor}
                 icon={<FiGithub size={18} />}
                 size="md"
                 _hover={{
-                  bgColor: githubButtonBgColorHover,
+                  bgColor: `gray.800`,
                 }}
               />
             </Link>
-            <VStack>
-              <Text size="sm" fontWeight="semibold">
-                luancode
-              </Text>
-              <Heading
-                as="h1"
-                size="sm"
-                color={headingColor}
-                sx={{ mt: `0 !important` }}
-              >
-                tools
-              </Heading>
-            </VStack>
-          </HStack>
-
-          <HStack w={{ base: `full`, sm: `auto` }} mt={{ base: 4, sm: 0 }}>
-            <Search />
-            <ColorModeSwitcher />
           </HStack>
         </Flex>
       </Container>

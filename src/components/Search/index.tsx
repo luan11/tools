@@ -10,10 +10,12 @@ import {
 import { FiSearch } from 'react-icons/fi';
 
 import { AppDispatch } from './../../store';
+import useSelectTools from './../../hooks/useSelectTools';
 import { search } from './../../features/ToolsList/toolsListSlice';
 
 const Search = () => {
   const dispatch = useDispatch<AppDispatch>();
+  const { isSearchEnabled } = useSelectTools();
 
   const searchIconColor = useColorModeValue(`mediumTurquoise`, ``);
 
@@ -42,6 +44,7 @@ const Search = () => {
         placeholder="Search the tools"
         value={searchParam}
         onChange={handleSearch}
+        disabled={!isSearchEnabled}
       />
     </InputGroup>
   );
