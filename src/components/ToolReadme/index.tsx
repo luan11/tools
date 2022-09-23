@@ -50,7 +50,6 @@ const ToolReadme = () => {
           }/README.md`
         );
 
-        setTryInMaster(false);
         setReadmeContent(data);
         dispatch(setToolReadme({ slug, readme: data }));
       } catch {
