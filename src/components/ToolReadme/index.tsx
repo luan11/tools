@@ -106,7 +106,7 @@ const ToolReadme = () => {
         </Box>
       )}
 
-      {!isLoading && !!readmeContent ? (
+      {!isLoading && !!readmeContent && (
         <>
           <Divider mb={4} />
 
@@ -116,7 +116,9 @@ const ToolReadme = () => {
             rehypePlugins={[rehypeRaw, rehypeHighlight, rehypeSlug]}
           />
         </>
-      ) : (
+      )}
+
+      {!isLoading && !readmeContent && (
         <Text textAlign="center">No readme found</Text>
       )}
     </Box>
