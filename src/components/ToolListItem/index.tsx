@@ -90,7 +90,7 @@ const ToolListItem = ({
           to={`/readme/${title}`}
           size="sm"
         >
-          Read more
+          View readme
         </Button>
         {livePreviewUrl && (
           <Link href={livePreviewUrl} isExternal>
