@@ -11,10 +11,12 @@ import {
   Divider,
   Link,
   IconButton,
+  Button,
 } from '@chakra-ui/react';
 import { AiFillStar, AiOutlineStar } from 'react-icons/ai';
 import { FiExternalLink, FiGithub } from 'react-icons/fi';
 import useLinkPreview from 'use-link-preview';
+import { Link as ReachLink } from '@reach/router';
 
 type ToolListItemProps = {
   description: string | null;
@@ -82,6 +84,14 @@ const ToolListItem = ({
         <Divider />
       </Box>
       <HStack px={8}>
+        <Button
+          colorScheme="blue"
+          as={ReachLink}
+          to={`/readme/${title}`}
+          size="sm"
+        >
+          View readme
+        </Button>
         {livePreviewUrl && (
           <Link href={livePreviewUrl} isExternal>
             <IconButton

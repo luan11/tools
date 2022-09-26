@@ -9,6 +9,7 @@ type ToolProps = {
   description: string | null;
   language: string;
   livePreviewUrl: string | null;
+  readme?: string;
   repoUrl: string;
   starsCount: number;
   subtitle: string;
@@ -26,9 +27,10 @@ type RepositoryProps = Pick<ToolProps, `description` | `language`> & {
 
 export type ToolsProps = {
   all: ToolProps[];
+  errorMessage?: string;
   filtered: ToolProps[];
   isLoading: boolean;
-  errorMessage?: string;
+  isSearchEnabled: boolean;
   revalidateIn?: string;
   searchParam?: string;
 };
@@ -51,6 +53,7 @@ const initialState: ToolsProps = {
   all: [],
   filtered: [],
   isLoading: false,
+  isSearchEnabled: false,
 };
 
 const tools = createSlice({
@@ -66,6 +69,21 @@ const tools = createSlice({
         ({ title, subtitle }) =>
           searchParamRegExp.test(title) || searchParamRegExp.test(subtitle)
       );
+    },
+    setToolReadme: (
+      state,
+      {
+        payload: { slug, readme },
+      }: PayloadAction<{ slug: string; readme: string }>
+    ) => {
+      const toolIndex = state.all.findIndex(({ title }) => title === slug);
+
+      if (toolIndex !== -1) {
+        state.all[toolIndex].readme = readme;
+      }
+    },
+    toggleIsSearchEnabled: (state) => {
+      state.isSearchEnabled = !state.isSearchEnabled;
     },
   },
   extraReducers: (builder) => {
@@ -111,6 +129,6 @@ const tools = createSlice({
   },
 });
 
-export const { search } = tools.actions;
+export const { search, setToolReadme, toggleIsSearchEnabled } = tools.actions;
 
 export default tools.reducer;
