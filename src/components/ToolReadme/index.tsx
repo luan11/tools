@@ -13,9 +13,13 @@ import {
   Text,
   VStack,
 } from '@chakra-ui/react';
+import { FiHome } from 'react-icons/fi';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import { FiHome } from 'react-icons/fi';
+import remarkEmoji from 'remark-emoji';
+import rehypeRaw from 'rehype-raw';
+import rehypeHighlight from 'rehype-highlight';
+import rehypeSlug from 'rehype-slug';
 
 import useSelectTools from './../../hooks/useSelectTools';
 import { AppDispatch } from './../../store';
@@ -108,8 +112,8 @@ const ToolReadme = () => {
 
           <ReactMarkdown
             children={readmeContent}
-            remarkPlugins={[remarkGfm]}
-            skipHtml
+            remarkPlugins={[remarkGfm, remarkEmoji]}
+            rehypePlugins={[rehypeRaw, rehypeHighlight, rehypeSlug]}
           />
         </>
       ) : (
