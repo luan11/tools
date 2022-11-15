@@ -24,6 +24,10 @@ const Footer = () => {
           <Link href="https://me.luancode.dev.br/" isExternal>
             luancode
           </Link>
+          {` `}| checkout the{` `}
+          <Link href="https://github.com/luan11/tools" isExternal>
+            repository
+          </Link>
         </Text>
       </Container>
     </Box>

@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
-import { Link, useParams } from '@reach/router';
+import { Link as ReachLink, useParams } from '@reach/router';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import {
+  useColorModeValue,
   Badge,
   Box,
   Button,
@@ -12,8 +13,10 @@ import {
   Spinner,
   Text,
   VStack,
+  Link,
 } from '@chakra-ui/react';
-import { FiHome } from 'react-icons/fi';
+import { AiFillStar, AiOutlineStar } from 'react-icons/ai';
+import { FiArrowLeft, FiExternalLink, FiGithub } from 'react-icons/fi';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import remarkEmoji from 'remark-emoji';
@@ -30,12 +33,22 @@ type Params = {
 };
 
 const ToolReadme = () => {
+  const githubButtonBgColor = useColorModeValue(`gray.600`, `gunmetal`);
+
   const { slug } = useParams<Params>();
   const { all } = useSelectTools();
   const dispatch = useDispatch<AppDispatch>();
 
-  const { readme, title, language, subtitle } =
-    all.find(({ title }) => title === slug) ?? {};
+  const {
+    readme,
+    title,
+    language,
+    subtitle,
+    starsCount,
+    description,
+    livePreviewUrl,
+    repoUrl,
+  } = all.find(({ title }) => title === slug) ?? {};
 
   const [readmeContent, setReadmeContent] = useState<string | undefined>(
     undefined
@@ -75,23 +88,87 @@ const ToolReadme = () => {
   }, [slug, dispatch, tryInMaster, readme]);
 
   return (
-    <Box>
-      <HStack mb={8} justify="space-between">
-        <VStack align="flex-start">
-          <HStack>
+    <Box overflow="hidden">
+      <HStack
+        mb={8}
+        justify="space-between"
+        flexDir={{
+          base: `column`,
+          sm: `row`,
+        }}
+        align={{
+          base: `flex-start`,
+          sm: `center`,
+        }}
+      >
+        <VStack align="flex-start" mb={{ base: 2, sm: 0 }}>
+          <HStack wrap={{ base: `wrap`, sm: `nowrap` }}>
             <Heading as="h2" size="xl">
               {title}
             </Heading>
             <Badge colorScheme="teal">{language}</Badge>
           </HStack>
 
-          <Heading as="h6" size="xs" color="gray.500">
-            {subtitle}
-          </Heading>
+          <HStack>
+            <Heading as="h6" size="xs" color="gray.500">
+              {subtitle}
+            </Heading>
+
+            <HStack>
+              <Text>-</Text>
+              <Box color="yellow.300">
+                {!!starsCount ? <AiFillStar /> : <AiOutlineStar />}
+              </Box>
+              <Text fontSize="xs">{starsCount}</Text>
+            </HStack>
+          </HStack>
+
+          <Text fontSize="sm">{description}</Text>
+
+          <HStack>
+            {livePreviewUrl && (
+              <Link
+                href={livePreviewUrl}
+                isExternal
+                _hover={{ textDecor: `none` }}
+              >
+                <Button
+                  aria-label="Go to live preview"
+                  as="span"
+                  colorScheme="teal"
+                  leftIcon={<FiExternalLink size={18} />}
+                  size="sm"
+                >
+                  Live preview
+                </Button>
+              </Link>
+            )}
+
+            <Link href={repoUrl} isExternal _hover={{ textDecor: `none` }}>
+              <Button
+                aria-label="Go to repository"
+                as="span"
+                color="white"
+                bgColor={githubButtonBgColor}
+                leftIcon={<FiGithub size={18} />}
+                size="sm"
+                _hover={{
+                  bgColor: `gray.800`,
+                }}
+              >
+                The code
+              </Button>
+            </Link>
+          </HStack>
         </VStack>
 
-        <Button leftIcon={<FiHome />} colorScheme="blue" as={Link} to="/">
-          Go home
+        <Button
+          leftIcon={<FiArrowLeft />}
+          colorScheme="blue"
+          as={ReachLink}
+          to="/"
+        >
+          Go back
         </Button>
       </HStack>
 

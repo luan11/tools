@@ -7,10 +7,7 @@ import {
   Text,
   Heading,
   HStack,
-  Link,
-  IconButton,
 } from '@chakra-ui/react';
-import { FiGithub } from 'react-icons/fi';
 
 import ColorModeSwitcher from './../ColorModeSwitcher';
 import Search from './../Search';
@@ -19,7 +16,6 @@ const Header = () => {
   const bgColor = useColorModeValue(`white`, `gray.700`);
   const boxShadow = useColorModeValue(`lg`, `md`);
   const headingColor = useColorModeValue(`gunmetal`, `mintCream`);
-  const githubButtonBgColor = useColorModeValue(`gray.600`, `gunmetal`);
 
   return (
     <Box
@@ -61,19 +57,6 @@ const Header = () => {
             <Search />
 
             <ColorModeSwitcher />
-            <Link href="https://github.com/luan11/tools" isExternal>
-              <IconButton
-                aria-label="Go to repository"
-                as="span"
-                color="white"
-                bgColor={githubButtonBgColor}
-                icon={<FiGithub size={18} />}
-                size="md"
-                _hover={{
-                  bgColor: `gray.800`,
-                }}
-              />
-            </Link>
           </HStack>
         </Flex>
       </Container>
