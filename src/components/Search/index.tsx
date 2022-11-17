@@ -6,6 +6,7 @@ import {
   InputGroup,
   InputLeftElement,
   useColorModeValue,
+  Fade,
 } from '@chakra-ui/react';
 import { FiSearch } from 'react-icons/fi';
 
@@ -34,19 +35,21 @@ const Search = () => {
   };
 
   return (
-    <InputGroup>
-      <InputLeftElement
-        pointerEvents="none"
-        children={<FiSearch color={searchIconColor} />}
-      />
-      <Input
-        type="search"
-        placeholder="Search the tools"
-        value={searchParam}
-        onChange={handleSearch}
-        disabled={!isSearchEnabled}
-      />
-    </InputGroup>
+    <Fade in={isSearchEnabled}>
+      <InputGroup>
+        <InputLeftElement
+          pointerEvents="none"
+          children={<FiSearch color={searchIconColor} />}
+        />
+        <Input
+          type="search"
+          placeholder="Search the tools"
+          value={searchParam}
+          onChange={handleSearch}
+          disabled={!isSearchEnabled}
+        />
+      </InputGroup>
+    </Fade>
   );
 };
 

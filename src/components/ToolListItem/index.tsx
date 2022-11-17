@@ -12,6 +12,8 @@ import {
   Link,
   IconButton,
   Button,
+  Grid,
+  GridItem,
 } from '@chakra-ui/react';
 import { AiFillStar, AiOutlineStar } from 'react-icons/ai';
 import { FiExternalLink, FiGithub } from 'react-icons/fi';
@@ -91,48 +93,60 @@ const ToolListItem = ({
         <Divider />
       </Box>
 
-      <HStack px={8} wrap="wrap" justify="center">
+      <Grid px={8} gap={2} templateColumns="repeat(2, 1fr)">
         {livePreviewUrl && (
-          <Link href={livePreviewUrl} isExternal _hover={{ textDecor: `none` }}>
-            <Button
-              aria-label="Go to live preview"
-              as="span"
-              colorScheme="teal"
-              leftIcon={<FiExternalLink size={18} />}
-              size="sm"
+          <GridItem>
+            <Link
+              href={livePreviewUrl}
+              isExternal
+              _hover={{ textDecor: `none` }}
             >
-              Live preview
-            </Button>
-          </Link>
+              <Button
+                aria-label="Go to live preview"
+                as="span"
+                colorScheme="teal"
+                leftIcon={<FiExternalLink size={18} />}
+                size="sm"
+                w="full"
+              >
+                Live preview
+              </Button>
+            </Link>
+          </GridItem>
         )}
 
-        <Link href={repoUrl} isExternal _hover={{ textDecor: `none` }}>
-          <Button
-            aria-label="Go to repository"
-            as="span"
-            color="white"
-            bgColor={githubButtonBgColor}
-            leftIcon={<FiGithub size={18} />}
-            size="sm"
-            _hover={{
-              bgColor: `gray.800`,
-            }}
-          >
-            The code
-          </Button>
-        </Link>
+        <GridItem>
+          <Link href={repoUrl} isExternal _hover={{ textDecor: `none` }}>
+            <Button
+              aria-label="Go to repository"
+              as="span"
+              color="white"
+              bgColor={githubButtonBgColor}
+              leftIcon={<FiGithub size={18} />}
+              size="sm"
+              _hover={{
+                bgColor: `gray.800`,
+              }}
+              w="full"
+            >
+              The code
+            </Button>
+          </Link>
+        </GridItem>
 
-        <Button
-          colorScheme="blue"
-          as={ReachLink}
-          to={`/readme/${title}`}
-          size="sm"
-          leftIcon={<BsFileText size={18} />}
-          style={{ marginTop: `var(--chakra-sizes-2)` }}
-        >
-          Docs
-        </Button>
-      </HStack>
+        <GridItem>
+          <Button
+            colorScheme="blue"
+            as={ReachLink}
+            to={`/readme/${title}`}
+            size="sm"
+            leftIcon={<BsFileText size={18} />}
+            w="full"
+          >
+            Docs
+          </Button>
+        </GridItem>
+      </Grid>
     </Flex>
   );
 };

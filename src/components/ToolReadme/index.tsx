@@ -89,19 +89,20 @@ const ToolReadme = () => {
 
   return (
     <Box overflow="hidden">
-      <HStack
+      <Box
         mb={8}
-        justify="space-between"
+        display="flex"
+        justifyContent="space-between"
         flexDir={{
           base: `column`,
           sm: `row`,
         }}
-        align={{
+        alignItems={{
           base: `flex-start`,
           sm: `center`,
         }}
       >
-        <VStack align="flex-start" mb={{ base: 2, sm: 0 }}>
+        <VStack align="flex-start" mb={{ base: 3, sm: 0 }}>
           <HStack wrap={{ base: `wrap`, sm: `nowrap` }}>
             <Heading as="h2" size="xl">
               {title}
@@ -162,15 +163,21 @@ const ToolReadme = () => {
           </HStack>
         </VStack>
 
+        <Divider display={{ base: `block`, sm: `none` }} mb={3} />
+
         <Button
           leftIcon={<FiArrowLeft />}
           colorScheme="blue"
           as={ReachLink}
           to="/"
+          w={{
+            base: `full`,
+            sm: `auto`,
+          }}
         >
           Go back
         </Button>
-      </HStack>
+      </Box>
 
       {isLoading && (
         <Box
@@ -185,8 +192,6 @@ const ToolReadme = () => {
 
       {!isLoading && !!readmeContent && (
         <>
-          <Divider mb={4} />
-
           <ReactMarkdown
             children={readmeContent}
             remarkPlugins={[remarkGfm, remarkEmoji]}
