@@ -12,6 +12,7 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import Home from './pages/Home';
 import Readme from './pages/Readme';
+import NotFound from './pages/NotFound';
 
 export const App = () => (
   <ChakraProvider theme={theme}>
@@ -21,6 +22,7 @@ export const App = () => (
         <Container maxW="6xl">
           <Divider mb={8} />
           <Router>
+            <NotFound default />
             <Home path="/" />
             <Readme path="readme/:slug" />
           </Router>

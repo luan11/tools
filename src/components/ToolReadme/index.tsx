@@ -27,6 +27,7 @@ import rehypeSlug from 'rehype-slug';
 import useSelectTools from './../../hooks/useSelectTools';
 import { AppDispatch } from './../../store';
 import { setToolReadme } from './../../features/ToolsList/toolsListSlice';
+import NotFound from './../../pages/NotFound';
 
 type Params = {
   slug: string;
@@ -86,6 +87,10 @@ const ToolReadme = () => {
       setReadmeContent(undefined);
     };
   }, [slug, dispatch, tryInMaster, readme]);
+
+  if (!title) {
+    return <NotFound />;
+  }
 
   return (
     <Box overflow="hidden">
