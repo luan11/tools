@@ -14,6 +14,8 @@ import storage from 'redux-persist/lib/storage';
 
 import toolsReducer from './../features/ToolsList/toolsListSlice';
 
+const isProductionEnvironment = process.env.NODE_ENV === `production`;
+
 const STORAGE_KEY = `LUANCODE_TOOLS`;
 
 const reducers = combineReducers({
@@ -42,6 +44,7 @@ const store = configureStore({
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
     }),
+  devTools: !isProductionEnvironment,
 });
 
 export type RootState = ReturnType<typeof reducers>;
