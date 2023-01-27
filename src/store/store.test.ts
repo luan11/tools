@@ -2,11 +2,24 @@ import MockAdapter from 'axios-mock-adapter';
 
 import api from './../services/api';
 import { store } from './index';
-import { fetchRepositories } from './../features/ToolsList/toolsListSlice';
+import {
+  ASYNC_THUNK_TYPE_PREFIX,
+  fetchRepositories,
+  search,
+  setToolReadme,
+  toggleIsSearchEnabled,
+} from './../features/ToolsList/toolsListSlice';
+
+let mockAdapter: MockAdapter;
+
+const FETCH_REPOSITORIES_RESPONSE_TYPES = {
+  fulfilled: `${ASYNC_THUNK_TYPE_PREFIX}/fulfilled`,
+  rejected: `${ASYNC_THUNK_TYPE_PREFIX}/rejected`,
+};
 
 const url = `/users/luan11/repos`;
 
-const getRepositoriesResponse = [
+const fetchRepositoriesResponse = [
   {
     id: 433627721,
     node_id: 'R_kgDOGdiiSQ',
@@ -300,17 +313,27 @@ const getRepositoriesResponse = [
   },
 ];
 
-const mockNetworkResponse = () => {
-  const mockAdapter = new MockAdapter(api);
+const mockSuccessNetworkResponse = () => {
+  mockAdapter.onGet(url).reply(200, fetchRepositoriesResponse);
+};
 
-  mockAdapter.onGet(url).reply(200, getRepositoriesResponse);
+const mockFailNetworkResponse = () => {
+  mockAdapter.onGet(url).reply(400);
 };
 
 describe(`Tools redux state tests`, () => {
   beforeAll(() => {
-    mockNetworkResponse();
+    mockAdapter = new MockAdapter(api);
 
     jest.useFakeTimers();
+  });
+
+  beforeEach(() => {
+    mockSuccessNetworkResponse();
+  });
+
+  afterEach(() => {
+    mockAdapter.reset();
   });
 
   it(`Should initially set tools as object with all and filtered properties as empty array and isLoading and isSearchEnabled as false`, () => {
@@ -329,18 +352,76 @@ describe(`Tools redux state tests`, () => {
     expect(initialTools.revalidateIn).toBeUndefined();
 
     const result = await store.dispatch(fetchRepositories());
+    expect(result.type).toBe(FETCH_REPOSITORIES_RESPONSE_TYPES.fulfilled);
 
-    expect(result.type).toBe(`tools/fetchRepositories/fulfilled`);
-    expect(result.payload).toEqual(getRepositoriesResponse);
+    expect(result.payload).toEqual(fetchRepositoriesResponse);
 
     const { tools } = store.getState();
 
-    expect(tools.all.length).toBe(getRepositoriesResponse.length);
+    expect(tools.all.length).toBe(fetchRepositoriesResponse.length);
     expect(tools.revalidateIn).not.toBeUndefined();
   });
 
-  // TODO fetch repos with error
-  // TODO filter tools
-  // TODO add readme to tool
-  // TODO toggle search enabled
+  it(`Should have error message when occur error on try to fetch repositories`, async () => {
+    mockFailNetworkResponse();
+
+    const result = await store.dispatch(fetchRepositories());
+    expect(result.type).toBe(FETCH_REPOSITORIES_RESPONSE_TYPES.rejected);
+
+    const { tools } = store.getState();
+
+    expect(tools.errorMessage).not.toBeUndefined();
+  });
+
+  it(`Should search tools`, async () => {
+    const { tools: toolsBeforeSearch } = store.getState();
+
+    expect(toolsBeforeSearch.filtered.length).toBe(0);
+
+    store.dispatch(search(`consulta`));
+
+    const { tools } = store.getState();
+
+    expect(tools.filtered.length).toBe(2);
+  });
+
+  it(`Should set readme to specific tool`, async () => {
+    const readme = `# Title`;
+
+    const { tools: toolsBeforeSetReadme } = store.getState();
+
+    expect(toolsBeforeSetReadme.all[0].readme).toBeUndefined();
+
+    store.dispatch(
+      setToolReadme({ slug: fetchRepositoriesResponse[0].name, readme })
+    );
+
+    const { tools } = store.getState();
+
+    expect(tools.all[0].readme).toBe(readme);
+  });
+
+  it(`Should enable search`, async () => {
+    const { tools: initialTools } = store.getState();
+
+    expect(initialTools.isSearchEnabled).toBeFalsy();
+
+    store.dispatch(toggleIsSearchEnabled());
+
+    const { tools } = store.getState();
+
+    expect(tools.isSearchEnabled).toBeTruthy();
+  });
+
+  it(`Should disable search`, async () => {
+    const { tools: initialTools } = store.getState();
+
+    expect(initialTools.isSearchEnabled).toBeTruthy();
+
+    store.dispatch(toggleIsSearchEnabled());
+
+    const { tools } = store.getState();
+
+    expect(tools.isSearchEnabled).toBeFalsy();
+  });
 });

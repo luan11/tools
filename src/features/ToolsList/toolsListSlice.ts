@@ -3,6 +3,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import api from './../../services/api';
 import escapeRegExp from './../../utils/escapeRegExp';
 
+export const ASYNC_THUNK_TYPE_PREFIX = `tools/fetchRepositories`;
 const ALLOWED_TOPIC = `luancode-tools`;
 
 type ToolProps = {
@@ -36,7 +37,7 @@ export type ToolsProps = {
 };
 
 export const fetchRepositories = createAsyncThunk(
-  `tools/fetchRepositories`,
+  ASYNC_THUNK_TYPE_PREFIX,
   async () => {
     const { data } = await api.get<RepositoryProps[]>(`/users/luan11/repos`, {
       params: {
@@ -76,11 +77,9 @@ const tools = createSlice({
         payload: { slug, readme },
       }: PayloadAction<{ slug: string; readme: string }>
     ) => {
-      const toolIndex = state.all.findIndex(({ title }) => title === slug);
-
-      if (toolIndex !== -1) {
-        state.all[toolIndex].readme = readme;
-      }
+      state.all = state.all.map((tool) =>
+        tool.title === slug ? { ...tool, readme } : tool
+      );
     },
     toggleIsSearchEnabled: (state) => {
       state.isSearchEnabled = !state.isSearchEnabled;
