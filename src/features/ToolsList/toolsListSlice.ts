@@ -4,7 +4,12 @@ import api from './../../services/api';
 import escapeRegExp from './../../utils/escapeRegExp';
 
 export const ASYNC_THUNK_TYPE_PREFIX = `tools/fetchRepositories`;
-const ALLOWED_TOPIC = `luancode-tools`;
+
+const QUERY = `luancode-tools`;
+const SORT = `name`;
+const ORDER = `asc`;
+
+const REPOSITORIES_TO_HIDE = [`tools`];
 
 type ToolProps = {
   description: string | null;
@@ -26,6 +31,12 @@ type RepositoryProps = Pick<ToolProps, `description` | `language`> & {
   topics: string[];
 };
 
+type RepositoriesProps = {
+  total_count: string;
+  incomplete_results: boolean;
+  items: RepositoryProps[];
+};
+
 export type ToolsProps = {
   all: ToolProps[];
   errorMessage?: string;
@@ -39,10 +50,11 @@ export type ToolsProps = {
 export const fetchRepositories = createAsyncThunk(
   ASYNC_THUNK_TYPE_PREFIX,
   async () => {
-    const { data } = await api.get<RepositoryProps[]>(`/users/luan11/repos`, {
+    const { data } = await api.get<RepositoriesProps>(`/search/repositories`, {
       params: {
-        sort: `created`,
-        visibility: `public`,
+        q: QUERY,
+        sort: SORT,
+        order: ORDER,
       },
     });
 
@@ -90,9 +102,9 @@ const tools = createSlice({
       .addCase(fetchRepositories.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(fetchRepositories.fulfilled, (state, { payload }) => {
-        const parsedPayload = payload
-          .filter(({ topics }) => topics.includes(ALLOWED_TOPIC))
+      .addCase(fetchRepositories.fulfilled, (state, { payload: { items } }) => {
+        const parsedPayload = items
+          .filter(({ name }) => !REPOSITORIES_TO_HIDE.includes(name))
           .map(
             ({
               description,
