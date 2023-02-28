@@ -44,7 +44,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "fake-server": "json-server --watch db.json --port 8080"
+    "fake-server": "json-server --watch db.json --routes routes.json --port 8080"
   },
   "eslintConfig": {
     "extends": "react-app"
