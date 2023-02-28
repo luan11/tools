@@ -31,7 +31,7 @@ type RepositoryProps = Pick<ToolProps, `description` | `language`> & {
   topics: string[];
 };
 
-type Repositories = {
+type RepositoriesProps = {
   total_count: string;
   incomplete_results: boolean;
   items: RepositoryProps[];
@@ -50,7 +50,7 @@ export type ToolsProps = {
 export const fetchRepositories = createAsyncThunk(
   ASYNC_THUNK_TYPE_PREFIX,
   async () => {
-    const { data } = await api.get<Repositories>(`/search/repositories`, {
+    const { data } = await api.get<RepositoriesProps>(`/search/repositories`, {
       params: {
         q: QUERY,
         sort: SORT,
